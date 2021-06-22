@@ -1,50 +1,131 @@
-import React, {useEffect, useState} from "react";
-import Login from "./components/Login";
-import Header from "./components/Header";
-import CreatePost from "./components/CreatePost";
-import PostList from "./components/PostList";
-import postReducer from "./reducer";
+import React, { useEffect, useRef, useState } from "react";
 
-// const functionsCount = new Set();
-export const UserContext = React.createContext(undefined, undefined);
-
-export const PostContext = React.createContext({posts: []})
+const baseUrl = "https://api.github.com/users/";
 
 function App() {
-    const initialPostState = React.useContext(PostContext)
-    const [state, dispatch] = React.useReducer(postReducer, initialPostState);
-    const [user, setUser] = useState('john');
-    // const [posts, setPosts] = useState([]);
-    // const [count, setCount] = useState(0)
+  const [developer, setDeveloper] = useState({
+    name: "",
+    language: "PYTHON",
+    yearsExperiened: 0,
+    isEmployed: false,
+  });
 
-    useEffect(() => {
-        document.title = user ? `${user}'s feed` : 'Please Login';
-    }, [user]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [username, setUsername] = useState("stevengabule");
+  const [user, setUser] = useState(null);
+  const inputRef = useRef();
 
-    /*const handleAddPost = React.useCallback(
-        newPost => {
-            setPosts([newPost, ...posts]);
-        },
-        [posts]
-    );*/
+  function handleToggleEmployment() {
+    setDeveloper((prevDeveloper) => ({
+      ...prevDeveloper,
+      isEmployed: !prevDeveloper.isEmployed,
+    }));
+  }
 
-    // functionsCount.add(handleAddPost)
-    // console.log(functionsCount)
+  function handleClickLanguage() {
+    setDeveloper({
+      ...developer,
+      language: "JAVASCRIPT",
+      yearsExperiened: 0,
+    });
+  }
 
-    if (!user) {
-        return <Login setUser={setUser}/>
-    }
+  function handleChangeInput(e) {
+    setDeveloper({
+      ...developer,
+      yearsExperiened: e.target.value,
+    });
+  }
 
-    return (
-        <PostContext.Provider value={{state, dispatch}}>
-            <UserContext.Provider value={user}>
-                <Header user={user} setUser={setUser}/>
-                <CreatePost user={user}/> {/*handleAddPost={handleAddPost}*/}
-                <PostList posts={state.posts}/>
-                {/*<button onClick={() => setCount(prev => prev + 1)}>{count}+</button>*/}
-            </UserContext.Provider>
-        </PostContext.Provider>
-    )
+  function handleChangeName(e) {
+    setDeveloper({
+      ...developer,
+      name: e.target.value,
+    });
+  }
+
+  useEffect(() => {
+    document.title = developer.name;
+  }, [developer.name]);
+
+  useEffect(() => {
+    document.addEventListener("mousemove", handleMousePosition);
+  }, [developer.name]);
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  function handleMousePosition({ pageX, pageY }) {
+    setMousePosition({ x: pageX, y: pageY });
+  }
+
+  async function getUser() {
+    const response = await fetch(`${baseUrl}${username}`);
+    const data = await response.json();
+    setUser(data);
+  }
+
+  function handleClearInput() {
+    inputRef.current.value = "";
+    inputRef.current.focus();
+  }
+
+  return (
+    <div>
+      <button onClick={handleToggleEmployment}>Toggle Employment Status</button>
+      <p>
+        <button onClick={handleClickLanguage}>Change Language</button>
+      </p>
+
+      <input
+        type={"text"}
+        placeholder={"Name"}
+        onChange={handleChangeName}
+        name="name"
+      />
+
+      <input
+        type={"number"}
+        placeholder={"Years"}
+        onChange={handleChangeInput}
+      />
+
+      <p>Name: {developer.name}</p>
+      <p>I am learning: {developer.language}</p>
+
+      <p>Years of experience: {developer.yearsExperiened}</p>
+
+      <p>
+        Employment Status: {developer.isEmployed ? "Employed" : "Unemployed"}
+      </p>
+      <h3>Mouse Position:</h3>
+      <p>
+        X: {mousePosition.x}, Y: {mousePosition.y}
+      </p>
+      <hr />
+      <h2>Working on API</h2>
+      <p>
+        <input
+          onChange={(e) => setUsername(e.target.value)}
+          type="text"
+          ref={inputRef}
+          placeholder={"Input username"}
+        />
+        <button type={"button"} onClick={getUser}>
+          Search
+        </button>
+        <button type={"button"} onClick={handleClearInput}>
+          Clear
+        </button>
+      </p>
+      <p>
+        <img src={user.avatar_url} style={{ width: 100 }} alt={user.name} />
+      </p>
+      <p>name: {user.name}</p>
+      <p>bio: {user.bio}</p>
+    </div>
+  );
 }
 
 export default App;
