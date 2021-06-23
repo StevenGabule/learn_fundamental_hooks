@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const baseUrl = "https://api.github.com/users/";
+const baseURL = "https://api.github.com/users";
 
 function App() {
   const [developer, setDeveloper] = useState({
     name: "",
-    language: "PYTHON",
-    yearsExperiened: 0,
+    yearExperience: 0,
+    language: "python",
     isEmployed: false,
   });
 
@@ -15,32 +15,11 @@ function App() {
   const [user, setUser] = useState(null);
   const inputRef = useRef();
 
-  function handleToggleEmployment() {
-    setDeveloper((prevDeveloper) => ({
-      ...prevDeveloper,
-      isEmployed: !prevDeveloper.isEmployed,
-    }));
-  }
-
-  function handleClickLanguage() {
+  function handleChangeInput({ target }) {
+    const { name, value } = target;
     setDeveloper({
       ...developer,
-      language: "JAVASCRIPT",
-      yearsExperiened: 0,
-    });
-  }
-
-  function handleChangeInput(e) {
-    setDeveloper({
-      ...developer,
-      yearsExperiened: e.target.value,
-    });
-  }
-
-  function handleChangeName(e) {
-    setDeveloper({
-      ...developer,
-      name: e.target.value,
+      [name]: value,
     });
   }
 
@@ -48,23 +27,41 @@ function App() {
     document.title = developer.name;
   }, [developer.name]);
 
-  useEffect(() => {
-    document.addEventListener("mousemove", handleMousePosition);
-  }, [developer.name]);
+  function handleToggleEmployment() {
+    setDeveloper((prevState) => ({
+      ...prevState,
+      isEmployed: !prevState.isEmployed,
+    }));
+  }
+
+  function handleChangeLanguage() {
+    setDeveloper((prevState) => ({
+      ...prevState,
+      language: "JavaScript",
+      yearExperience: 0,
+    }));
+  }
 
   useEffect(() => {
-    getUser();
-  }, []);
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  });
 
-  function handleMousePosition({ pageX, pageY }) {
+  function handleMouseMove({ pageX, pageY }) {
     setMousePosition({ x: pageX, y: pageY });
   }
 
   async function getUser() {
-    const response = await fetch(`${baseUrl}${username}`);
+    const response = await fetch(`${baseURL}/${username}`);
     const data = await response.json();
     setUser(data);
   }
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   function handleClearInput() {
     inputRef.current.value = "";
@@ -73,57 +70,68 @@ function App() {
 
   return (
     <div>
-      <button onClick={handleToggleEmployment}>Toggle Employment Status</button>
       <p>
-        <button onClick={handleClickLanguage}>Change Language</button>
+        <button type="button" onClick={handleToggleEmployment}>
+          Toggle Employment
+        </button>
+        <button type="button" onClick={handleChangeLanguage}>
+          Change langauge
+        </button>
       </p>
-
-      <input
-        type={"text"}
-        placeholder={"Name"}
-        onChange={handleChangeName}
-        name="name"
-      />
-
-      <input
-        type={"number"}
-        placeholder={"Years"}
-        onChange={handleChangeInput}
-      />
-
-      <p>Name: {developer.name}</p>
-      <p>I am learning: {developer.language}</p>
-
-      <p>Years of experience: {developer.yearsExperiened}</p>
-
-      <p>
-        Employment Status: {developer.isEmployed ? "Employed" : "Unemployed"}
-      </p>
-      <h3>Mouse Position:</h3>
-      <p>
-        X: {mousePosition.x}, Y: {mousePosition.y}
-      </p>
-      <hr />
-      <h2>Working on API</h2>
       <p>
         <input
-          onChange={(e) => setUsername(e.target.value)}
+          name="name"
+          type="text"
+          placeholder="Enter name"
+          onChange={handleChangeInput}
+        />
+        <input
+          name="yearExperience"
+          type="number"
+          value={developer.yearExperience}
+          onChange={handleChangeInput}
+          placeholder="Number of experience"
+        />
+      </p>
+      <p>My name: {developer.name}</p>
+      <p>I'm learning: {developer.language}</p>
+      <p>Years of experience: {developer.yearExperience}</p>
+      <p>Is employed: {developer.isEmployed ? "Employed" : "Unemployed"}</p>
+
+      <hr />
+      <h3>Mouse Position</h3>
+      <p>
+        x: {mousePosition.x}, y:{mousePosition.y}
+      </p>
+
+      <hr />
+      <h3>Github Profile</h3>
+      <p>
+        <input
           type="text"
           ref={inputRef}
-          placeholder={"Input username"}
+          onChange={({ target }) => setUsername(target.value)}
         />
-        <button type={"button"} onClick={getUser}>
+        <button type="button" onClick={getUser}>
           Search
         </button>
-        <button type={"button"} onClick={handleClearInput}>
+        <button type="button" onClick={handleClearInput}>
           Clear
         </button>
       </p>
-      <p>
-        <img src={user.avatar_url} style={{ width: 100 }} alt={user.name} />
-      </p>
-      <p>name: {user.name}</p>
-      <p>bio: {user.bio}</p>
+      {user ? (
+        <>
+          <img
+            src={user.avatar_url}
+            alt={user.name}
+            style={{ width: 50, height: 50 }}
+          />
+          <p>Name: {user.name}</p>
+          <p>Bio: {user.bio}</p>
+        </>
+      ) : (
+        "loading..."
+      )}
     </div>
   );
 }
