@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { UserContext, PostContext } from "../App1";
 
 function Post({ image, content, user, id }) {
-  const currentUser = React.useContext(UserContext);
-  const { dispatch } = React.useContext(PostContext);
+  const currentUser = useContext(UserContext);
+  const { dispatch } = useContext(PostContext);
   const isCurrentUser = currentUser === user;
 
   function handleDeletePostClick() {

@@ -1,0 +1,62 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #c2c2d6;
+}
+
+.container {
+  width: 20%;
+  background-color: white;
+  margin: auto;
+  margin-top: 15%;
+}
+
+.preview,
+.displayInput {
+  width: 100%;
+  height: auto;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  text-align: right;
+  padding: 8px;
+}
+
+.displayInput {
+  color: orange;
+}
+
+.row {
+  display: flex;
+}
+.row button {
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.row button.jumbo {
+  flex-grow: 2.3;
+}
+
+.row .row-inner-left {
+  flex-grow: 3;
+  background-color: red;
+}
+
+.row .row-inner-right {
+  flex-grow: 1;
+  background-color: blue;
+}
+
+.row .row-inner-right button {
+  width: 100%;
+  height: 100%;
+}
+
+.section-1 {
+  display: flex;
+}

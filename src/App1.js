@@ -13,7 +13,6 @@ import postReducer from "./reducer";
 
 // const functionsCount = new Set();
 export const UserContext = createContext(undefined, undefined);
-
 export const PostContext = createContext({ posts: [] });
 
 function App() {

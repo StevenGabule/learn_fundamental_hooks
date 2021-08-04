@@ -1,132 +1,143 @@
 import React, { useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
 
-const baseURL = "https://api.github.com/users/";
+const baseURL = "https://api.github.com/users";
 
 function App() {
   const [developer, setDeveloper] = useState({
     name: "",
-    developer: "python",
-    yearsExperience: 0,
+    yearsExp: 0,
+    language: "Python",
     isEmployed: false,
   });
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("stevengabule");
-  const searchInput = useRef();
+  const inputRef = useRef();
 
-  async function getUser() {
-    const response = await fetch(`${baseURL}${username}`);
-    const data = await response.json();
-    setUser(data);
+  function handleToggleEmploymentClick() {
+    setDeveloper((prevDev) => ({
+      ...prevDev,
+      isEmployed: !prevDev.isEmployed,
+    }));
   }
 
-  useEffect(() => {
-    getUser();
-    // fetch(baseURL).then(response => response.json()).then(data => setUser(data))
-  }, []);
-
-  function handleClearInput() {
-    searchInput.current.value = "";
-    searchInput.current.focus();
+  function handleChangeLanguageClick() {
+    setDeveloper((prevDev) => ({
+      ...prevDev,
+      language: "JavaScript",
+      yearsExp: 0,
+    }));
   }
 
-  useEffect(() => {
-    document.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
-  function handleMouseMove({ pageX, pageY }) {
-    setMousePosition({ x: pageX, y: pageY });
+  function handleInputChange({ target }) {
+    const { name, value } = target;
+    setDeveloper((prevDev) => ({
+      ...prevDev,
+      [name]: value,
+    }));
   }
 
   useEffect(() => {
     document.title = developer.name;
   }, [developer.name]);
 
-  function handleClickLanguage() {
-    setDeveloper({
-      developer: "JS",
-      yearsExperience: 0,
-    });
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMousePosition);
+    return () => {
+      window.removeEventListener("mousemove", handleMousePosition);
+    };
+  }, []);
+
+  function handleMousePosition({ pageX: x, pageY: y }) {
+    setMousePosition({ x, y });
   }
 
-  function handleChangeInput(e) {
-    setDeveloper({
-      ...developer,
-      yearsExperience: e.target.value,
-    });
+  async function getUser() {
+    const response = await fetch(`${baseURL}/${username}`);
+    const data = await response.json();
+    setUser(data);
   }
 
-  function handleChangeName(e) {
-    setDeveloper({
-      ...developer,
-      name: e.target.value,
-    });
-  }
+  useEffect(() => {
+    getUser();
+  }, []);
 
-  function handleToggleEmployment() {
-    setDeveloper((prevState) => ({
-      ...prevState,
-      isEmployed: !prevState.isEmployed,
-    }));
+  function clearInputClick() {
+    inputRef.current.value = "";
+    inputRef.current.focus();
+    setUsername("");
   }
 
   return (
     <div>
-      <button onClick={handleToggleEmployment}>Toggle Employment Status</button>
       <p>
-        <button onClick={handleClickLanguage}>Change Language</button>
+        <button type="button" onClick={handleToggleEmploymentClick}>
+          Toggle Employment
+        </button>
+        <button type="button" onClick={handleChangeLanguageClick}>
+          Change Language
+        </button>
       </p>
 
-      <input
-        type={"number"}
-        placeholder={"Years"}
-        onChange={handleChangeInput}
-      />
-      <input type={"text"} placeholder={"Name"} onChange={handleChangeName} />
-
-      <p>I am learning: {developer.developer}</p>
-      <p>Years of experience: {developer.yearsExperience}</p>
-      <p>
-        Employment Status: {developer.isEmployed ? "Employed" : "Unemployed"}
-      </p>
-      <h3>Mouse Position:</h3>
-      <p>
-        X: {mousePosition.x}, Y: {mousePosition.y}
-      </p>
-      <hr />
-      <h2>Working on API</h2>
       <p>
         <input
-          onChange={(event) => setUsername(event.target.value)}
           type="text"
-          ref={searchInput}
-          placeholder={"Input username"}
+          onChange={handleInputChange}
+          name="name"
+          placeholder="Enter name"
         />
-        <button type={"button"} onClick={getUser}>
+        <input
+          type="number"
+          onChange={handleInputChange}
+          name="yearsExp"
+          placeholder="Number of years"
+        />
+      </p>
+      <p>Name: {developer.name}</p>
+      <p>Language: {developer.language}</p>
+      <p>Years of experience: {developer.yearsExp}</p>
+      <p>Employed: {developer.isEmployed ? "Employed" : "Unemployed"}</p>
+      <hr />
+      <h3>Mouse position</h3>
+      <p>
+        x: {mousePosition.x}, y: {mousePosition.y}
+      </p>
+
+      <hr />
+      <h3>Github Position</h3>
+      <p>
+        <input
+          name="username"
+          onChange={({ target }) => setUsername(target.value)}
+          ref={inputRef}
+          placeholder="Search username"
+          value={username}
+        />
+        <button type="button" onClick={getUser}>
           Search
         </button>
-        <button type={"button"} onClick={handleClearInput}>
+        <button type="button" onClick={clearInputClick}>
           Clear
         </button>
       </p>
       {user ? (
         <>
-          <img src={user.avatar_url} width={50} alt="" />
+          <p>
+            <img
+              src={user.avatar_url}
+              alt={user.name}
+              style={{ width: 50, height: 50 }}
+            />
+          </p>
           <p>Name: {user.name}</p>
-          <p>Biography: {user.bio}</p>
+          <p>Bio: {user.bio}</p>
         </>
       ) : (
-        "Loading..."
+        "loading"
       )}
     </div>
   );
 }
 
 export default App;
-// ReactDOM.render(<App />, document.getElementById("root"));

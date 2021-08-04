@@ -1,0 +1,12 @@
+body {
+  background-color: rgb(80, 255, 232);
+}
+
+.container {
+  width: 40%;
+  margin: auto;
+}
+
+pre {
+  background-color: white;
+}

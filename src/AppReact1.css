@@ -1,0 +1,31 @@
+body {
+  background-color: bisque;
+}
+
+#quote-box {
+  background-color: white;
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  margin: auto;
+  margin-top: 14%;
+  border-radius: 3px;
+  border: 2px solid rgb(145, 144, 144);
+}
+
+.box {
+  display: flex;
+  justify-content: space-between;
+}
+
+button,
+a {
+  border: 1px solid rgb(145, 144, 144);
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}

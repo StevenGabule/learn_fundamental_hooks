@@ -1,0 +1,25 @@
+body {
+  background-color: cornsilk;
+}
+
+#drum-machine {
+  background-color: rgb(255, 255, 255);
+  width: 50%;
+  margin: auto;
+  padding: 20px;
+  border: 2px solid #e1e1e1;
+}
+.drum-pad {
+  width: 40px;
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  border: 2px solid #e1e1e1;
+  float: left;
+  clear: right;
+}
+
+button:hover {
+  background-color: crimson;
+  color: white;
+}

@@ -1,6 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
-// import DisplayMessages from  './AppTest';//"./App";
-import App from "./App"; //"./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ExampleApp3 from './ExampleApp3';
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<ExampleApp3 />, document.getElementById('root'));
