@@ -47,12 +47,12 @@ function AppReact4() {
             operator === true
               ? String(val)
               : // eslint-disable-next-line eqeqeq
-              prevValue.currentNum == String(val)
+              prevValue.currentNum === String(val)
               ? String(val)
               : prevValue.currentNum + "" + String(val),
           currentPrev:
             // eslint-disable-next-line eqeqeq
-            prevValue.currentNum == String(val)
+            prevValue.currentNum === String(val)
               ? String(val)
               : prevValue.currentPrev + "" + String(val),
         }));

@@ -66,7 +66,7 @@ function AppReact2() {
           style={{ width: "100%" }}
         />
       </div>
-      <div id="preview"></div>
+      <div id="preview"/>
     </div>
   );
 }

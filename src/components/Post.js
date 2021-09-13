@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { UserContext, PostContext } from "../App1";
+import { UserContext, PostContext } from "../Apps/App1";
 
 function Post({ image, content, user, id }) {
   const currentUser = useContext(UserContext);

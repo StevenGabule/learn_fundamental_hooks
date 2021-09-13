@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './AppReact1.css';
 
 const quotes = [
@@ -54,17 +54,8 @@ export default function AppReact1() {
       <h2 id='text'>{quote.text}</h2>
       <p id='author'>- {quote.author}</p>
       <div className='box'>
-        <a
-          target='_top'
-          title='Tweet this quote!'
-          href={
-            `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text="` +
-            quote.text +
-            ` ` +
-            quote.author
-          }
-          id='tweet-quote'
-        >
+        <a target='_top' title='Tweet this quote!' id='tweet-quote'
+           href={`https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text="` + quote.text + ` ` + quote.author}>
           Tweet
         </a>
         <button onClick={randomQuotes} type='button' id='new-quote'>

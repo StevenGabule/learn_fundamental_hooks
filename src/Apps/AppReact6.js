@@ -1,5 +1,8 @@
+import React from 'react';
+
 const audio = document.getElementById("beep");
 
+// eslint-disable-next-line no-unused-vars
 class App extends React.Component {
   state = {
     breakCount: 5,

@@ -1,11 +1,11 @@
 import React, { useContext, useRef, useState } from "react";
-import { PostContext } from "../App1";
+import { PostContext } from "../Apps/App1";
 
 function CreatePost({ user }) {
   const { dispatch } = useContext(PostContext);
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
-  const imageInputRef = useRef();
+  const imageInputRef = useRef(null);
 
   function handleSubmit(event) {
     event.preventDefault();

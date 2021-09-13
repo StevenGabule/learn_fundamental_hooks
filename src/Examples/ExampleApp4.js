@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import './bg.css';
+import '../bg.css';
 const baseURL = 'https://api.github.com/users';
 
 function ExampleApp4() {
