@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppMap from './projects/4/AppMap';
+import App from './projects/5/App';
 
-ReactDOM.render(<AppMap />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
