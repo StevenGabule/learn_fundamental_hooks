@@ -89,6 +89,7 @@ function AppReact4() {
       // eslint-disable-next-line no-eval
       currentNum: eval(String(prevCurrent.currentPrev)),
       currentPrev:
+      // eslint-disable-next-line no-eval
         prevCurrent.currentPrev + " = " + eval(String(prevCurrent.currentPrev)),
     }));
     setClearInput(true);
