@@ -26,6 +26,16 @@ function Todos() {
     setTodos([...todos, addTodo]);
   }
 
+  function handleChangeStatus(id) {
+    const updatedTasks = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    setTodos(updatedTasks);
+  }
+
   return (
     <div>
       <h3>Todos</h3>
@@ -37,8 +47,31 @@ function Todos() {
         />
         <button onClick={handleAddTodo}>Add Todo</button>
       </p>
+
+      <h4>Next Todo List</h4>
       <ul>
-        {/* {todos && todos.map((todo, i) => <li key={todo.id}>{todo.name}</li>)} */}
+        {todos &&
+          todos.map(
+            (todo, i) =>
+              todo.completed === false && (
+                <li key={todo.id} onClick={() => handleChangeStatus(todo.id)}>
+                  {todo.name}
+                </li>
+              )
+          )}
+      </ul>
+
+      <h4>Completed Todo List</h4>
+      <ul>
+        {todos &&
+          todos.map(
+            (todo) =>
+              todo.completed && (
+                <li key={todo.id} onClick={() => handleChangeStatus(todo.id)}>
+                  {todo.name}
+                </li>
+              )
+          )}
       </ul>
     </div>
   );
