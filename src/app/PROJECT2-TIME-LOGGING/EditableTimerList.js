@@ -1,10 +1,19 @@
-import EditableTimer from "./EditableTimer";
+import EditableTimer from './EditableTimer';
 
-function EditableTimerList() {
+function EditableTimerList({ timers, onFormSubmit }) {
   return (
     <div id="timers">
-      <EditableTimer title="learn react" project="web domination" elapsed="8986300" runningSince={null} editFormOpen={false} />
-      <EditableTimer title="Learn extreme ironing" project="world domination" elapsed="3890985" runningSince={null} editFormOpen={true} />
+      {timers.map((timer) => (
+        <EditableTimer
+          key={timer.id}
+          title={timer.title}
+          project={timer.project}
+          elapsed={timer.elapsed}
+          runningSince={timer.runningSince}
+          editFormOpen={false}
+          onFormSubmit={onFormSubmit}
+        />
+      ))}
     </div>
   );
 }

@@ -1,3 +1,22 @@
+export function newTimer(attrs = {}) {
+  return {
+    title: attrs.title || "Timer",
+    project: attrs.project || "Product",
+    // eslint-disable-next-line no-undef
+    id: uuid.v4(),
+    elapsed: 0,
+  };
+}
+
+export function findById(array, id, cb) {
+  array.forEach((el) => {
+    if (el.id === id) {
+      cb(el);
+      return;
+    }
+  });
+}
+
 export function renderElapsedString(elapsed, runningSince) {
   let totalElapsed = elapsed;
   if (runningSince) {

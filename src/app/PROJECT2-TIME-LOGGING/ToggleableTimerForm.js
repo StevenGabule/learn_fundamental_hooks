@@ -1,12 +1,28 @@
-import TimerForm from "./TimerForm";
+import { useState } from 'react';
+import TimerForm from './TimerForm';
 
-function ToggleableTimerForm({ isOpen }) {
+function ToggleableTimerForm({ onFormSubmit }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleFormOpen() {
+    setIsOpen(true);
+  }
+
+  function handleFormClose() {
+    setIsOpen(false);
+  }
+
+  function handleFormSubmit(timer) {
+    onFormSubmit(timer);
+    setIsOpen(false);
+  }
+
   if (isOpen) {
-    return <TimerForm />;
+    return <TimerForm onFormClose={handleFormClose} onFormSubmit={handleFormSubmit} />;
   } else {
     return (
       <div className="ui basic content center aligned segment">
-        <button className="ui basic button icon">
+        <button onClick={handleFormOpen} className="ui basic button icon">
           <i className="plus icon" />
         </button>
       </div>

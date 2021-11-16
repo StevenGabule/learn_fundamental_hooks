@@ -1,6 +1,6 @@
-import { renderElapsedString } from "../../helpers";
+import { renderElapsedString } from '../../helpers';
 
-function Timer({ elapsed, title, project }) {
+function Timer({ elapsed, title, project, onEditClick }) {
   const elapsedString = renderElapsedString(elapsed);
   return (
     <div className="ui centered card">
@@ -11,7 +11,7 @@ function Timer({ elapsed, title, project }) {
           <h2>{elapsedString}</h2>
         </div>
         <div className="extra content">
-          <span className="right floated edit icon">
+          <span onClick={onEditClick} className="right floated edit icon">
             <i className="edit icon" />
           </span>
           <span className="right floated edit icon">
