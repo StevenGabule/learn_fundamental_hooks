@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useState,
-  createContext,
-  useContext,
-  useReducer,
-} from 'react';
+import { useEffect, useState, createContext, useContext, useReducer } from 'react';
 import postReducer from './reducer';
 import Login from './Login';
 import Header from './Header';
