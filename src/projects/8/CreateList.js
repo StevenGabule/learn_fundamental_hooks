@@ -19,20 +19,9 @@ function CreateList({ user }) {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          name='content'
-          value={content}
-          placeholder='new content'
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <input
-          type='file'
-          name='image'
-          ref={imageRef}
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-        <button type='submit'>Post</button>
+        <input type="text" name="content" value={content} placeholder="new content" onChange={(e) => setContent(e.target.value)} />
+        <input type="file" name="image" ref={imageRef} onChange={(e) => setImage(e.target.files[0])} />
+        <button type="submit">Post</button>
       </form>
     </div>
   );
